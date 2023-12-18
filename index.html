@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <style>
+            body{
+                color:rgb(92, 92, 92);
+            }
+            h1,h2,h3,h5,p{
+                text-align: center;
+            }
+            .centeredImg{
+                margin-left: auto;
+                margin-right: auto;
+                animation-name: lemonbotPop;
+                animation-duration:.5s;
+            }
+
+            btn.btn-success:active{
+                background-color: red;
+            }
+
+            .discordServerDisplay{
+                background-color: #33363b;
+                /* border: .15em solid #6d737c; */
+                border-radius: 10px;
+                width: 80%;
+                height: 15em;
+                color:lightgray;
+                margin-left:10%;
+            }
+
+            #bgCanvas{
+                z-index: -1;
+                position:absolute;
+            }
+
+            #joinBtn{
+                width:10em;
+                margin-right:2em;
+            }
+
+            #onlineNumber{
+                margin-right:1em;
+            }
+
+            .page-link{
+                background-color: #33363b;
+                border: 1px solid #151619;
+                color:lightgray
+            }
+
+            .page-link:hover, .page-link.active{
+                background-color: #4a4a4a;
+                border: 1px solid #151619;
+                color:lightgray;
+            }
+
+            .carousel-inner img{
+                border-radius: 10px;
+            }
+
+            .communityImage{
+                width:8em;
+                height:8em;
+                border-radius: 45px;
+                margin-left: 2em;
+            }
+
+            .hardHat{
+                position: absolute;
+                transform-origin: 215px 90px;
+                z-index: 1;
+            }
+
+            p:hover .hardHat{
+                animation: hardHatFlip;
+                animation-duration: .8s;
+            }
+
+            p:hover .lemonBotConstruction{
+                animation: squash;
+                animation-duration: .8s;
+            }
+
+            .newSection{
+                margin-top: 5em;
+            }
+
+            .cmdTable{
+                width:80%;
+                margin-left:20%;
+                font-size: 1.5em;
+            }
+
+            .cmdTable span, .popCmdList span{
+                background-color: gray;
+                color:white;
+                border-radius: 5px;
+                padding:10px;
+            }
+
+            .popCmdList span{
+                margin-left:20px;
+            }
+
+            .cmdTable tr{
+                border:15px solid transparent;
+            }
+
+            .footerIcon{
+                width: 100px;
+                height: 100px;
+            }
+
+            .footerIcon:hover{
+                animation: spin360;
+                animation-duration: 1s;
+            }
+
+            footer p{
+                text-align: center;
+                font-size:2em;
+            }
+
+            @keyframes spin360{
+                to{
+                    transform:rotate(360deg);
+                }
+            }
+
+            /* Lemonbot pop effect animation */
+            @keyframes lemonbotPop{
+                from{
+                    width:0px;
+                    height:0px;
+                }
+
+                40%{
+                    width:600px;
+                    height:600px;
+                }
+
+                to{
+                    width:500px;
+                    height:500px;
+                }
+            }
+
+            /* I'm a proud papa with this short animation. Consists of a hardhat and lemonbot squashing and stretching */
+            @keyframes hardHatFlip{
+                50%{
+                    transform: rotate(360deg);
+                    margin-top:-150px
+                }
+
+                80%{
+                    transform: rotate(360deg);
+                    margin-top:70px;
+                }
+
+                to{
+                    transform: rotate(360deg);
+                    margin-top:0px;
+                }
+            }
+
+            @keyframes squash{
+                70%{
+                    transform: scale(1,1);
+                    margin-top:0px;
+                }
+
+                80%{
+                    transform: scale(1,.86);
+                    margin-top:45px;
+                }
+
+                to{
+                    transform: scale(1,1);
+                    margin-top:0px;
+                }
+            }
+
+            @media screen and (min-width: 1000px) {
+                .discordServerDisplay{
+                    width: 60%;
+                    margin-left: 20%;
+                }
+            }
+
+            @media screen and (min-width: 2600px) {
+                .discordServerDisplay{
+                    width: 60%;
+                    margin-left: 20%;
+                }
+            }
+        </style>
+        <title>Lemonbot</title>
+    </head>
+    <body>
+        <canvas id='bgCanvas'></canvas>
+        <h1>Hi there, I'm Lemonbot!</h1>
+        <p id='joe'>
+                <img class='centeredImg' src='./assets/lemonBot.svg'/>
+            <p>
+                <a href="https://discord.com/api/oauth2/authorize?client_id=820476860328706048&permissions=20981824&scope=applications.commands%20bot">
+                    <button type="button" class="btn btn-success"><span style="font-weight: bold; font-size: 1.5em;">+</span> Add me to Discord</button>
+                </a><br><br>
+                <a href="#cmdList"><button type="button" class="btn btn-success">Commands</button></a>
+                <a href="#adminCmdList"><button type="button" class="btn btn-success">Admin</button></a>
+            </p>
+        </p>
+        <div id='popularCommands' style='display:none'><h2>Popular commands this week:<span class='popCmdList'></span></h2></div>
+        <h2 class="newSection">It's nice to meet you, there is a lot your gang and I can do together!</h2>
+
+        <div id="features-gallery" class="carousel slide" data-ride="carousel">
+            <ul class="carousel-indicators">
+              <li data-target="#features-gallery" data-slide-to="0" class="active"></li>
+              <li data-target="#features-gallery" data-slide-to="1"></li>
+              <li data-target="#features-gallery" data-slide-to="2"></li>
+              <li data-target="#features-gallery" data-slide-to="3"></li>
+              <li data-target="#features-gallery" data-slide-to="4"></li>
+            </ul>
+
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <p><img src="assets/screenshots/tools.png"></p>
+              </div>
+              <div class="carousel-item">
+                <p><img src="assets/screenshots/memes.png"></p>
+              </div>
+              <div class="carousel-item">
+                <p><img src="assets/screenshots/games.png"></p>
+              </div>
+              <div class="carousel-item">
+                <p><img src="assets/screenshots/text.png"></p>
+              </div>
+              <div class="carousel-item">
+                <p><img src="assets/screenshots/eliza.png"></p>
+              </div>
+            </div>
+
+            <a class="carousel-control-prev" href="#features-gallery" data-slide="prev">
+              <span class="carousel-control-prev-icon"></span>
+            </a>
+            <a class="carousel-control-next" href="#features-gallery" data-slide="next">
+              <span class="carousel-control-next-icon"></span>
+            </a>
+          </div>
+
+        <h1 class='newSection' id='adminCmdList'>Admin tools <a href="https://github.com/iSlamemdMyKindle/lemonBot/blob/master/manuals/adminCommands.md">(Manual!)</a></h1>
+        <p>
+            <img class='hardHat' src='./assets/lemonBotConstructionB.svg'>
+            <img class='lemonBotConstruction' src='./assets/lemonBotConstructionA.svg'>
+        </p>
+
+        <h2>If you're in a pinch, I can also help you and your mods with basic admin commands!</h2>
+
+        <table id='adminTable' class='cmdTable'></table>
+        <h2 style='font-size: 90%;'>(Only mods with specific permissions can run the respective command, check <a href="https://github.com/iSlamemdMyKindle/lemonBot/blob/master/manuals/adminCommands.md">my manual</a> for more info!)</h2>
+
+        <h1 class='newSection'>And let's not forget! The most the most legendary feature of them all...</h1>
+
+        <p>
+            <img src='./assets/rylan_noNeck.png' style='width:50%; height:50%'>
+        </p>
+        <div>
+            <h3>This guy</h3>
+            <p>(His name is Rylan by the way) <span style='font-size:20%'>and definitely not Ryland...</span></p>
+        </div>
+
+        <h2 class='newSection' id='cmdList'>Here's my full list of commands:</h2>
+        
+        <ul class="pagination pagination-lg justify-content-center" onclick='console.log(arguments)'>
+            <li class="page-item"><span class="page-link cmdCat" data-cat="tools">Tools</span></li>
+            <li class="page-item"><span class="page-link cmdCat" data-cat="memes">Memes</span></li>
+            <li class="page-item"><span class="page-link cmdCat" data-cat="games">Games</span></li>
+            <li class="page-item"><span class="page-link cmdCat" data-cat="text">Text</span></li>
+            <li class="page-item"><span class="page-link cmdCat" data-cat="eliza">Eliza</span></li>
+        </ul>
+        
+        <table id='fullCmdList' class='cmdTable'></table>
+
+        <p class='newSection'>
+            <img src='./assets/lemonBotLookingRight.svg' style='width:8em;height:8em'>
+            <a href="https://discord.com/api/oauth2/authorize?client_id=820476860328706048&permissions=20981824&scope=applications.commands%20bot">
+                <button type="button" class="btn btn-success"><span style="font-weight: bold; font-size: 1.5em;">+</span> Add me to Discord</button>
+            </a>
+        </p>
+        <h5 id='peopleUsingLemonbot'></h5>
+
+        <h3>Ooooor...</h3>
+        
+        <h2>Stop by the community and try me out!</h2>
+        <table class='discordServerDisplay'>
+            <tbody>
+                <tr>
+                    <td><img class="communityImage" src="./assets/lemonBotCommunitySquircle.png"></td>
+                    <td><h2>Lemon Bot Community & Help Desk</h2></td>
+                </tr>
+                <tr>
+                    <td><a href='https://discord.com' target="_blank"><img src='./assets/discordGray.svg' style='margin-left: 2em;'></a></td>
+                    <td style="text-align: right;">
+                        <span id="onlineNumber"></span>
+                        <a href="https://discord.gg/epBxDGdErz" target="_blank"><button type="button" id="joinBtn" class="btn btn-success btn-lg">Join</button></a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <footer class='newSection'>
+            <p><a href="http://github.com/iSlamemdMyKindle"> <img class='footerIcon' src="./assets/iSlammedMyKindlePathObj.svg"> <br><button type="button" class="btn btn-success">By iSlamemdMyKindle</button></a></p>
+            <p><a href="https://github.com/iSlamemdMyKindle/lemonBot"><img class='footerIcon' src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg"> <br> <button type="button" class="btn btn-success">Source code!</button></a></p>
+            <p><a href="http://creativecommons.org/licenses/by/4.0/"><img title="This work is licensed under a Creative Commons Attribution 4.0 International License." src="https://i.creativecommons.org/l/by/4.0/88x31.png"></a></p>
+        </footer>
+        <script src="commandsList.js"></script>
+        <script>
+            //Generate some table elements based on commandsList.js
+            var commandsTbodyObj = {}
+            
+            for(var i in commandsList){
+                commandsTbodyObj[i] = document.createElement('tbody');
+
+                for(var j of commandsList[i])
+                    commandsTbodyObj[i].appendChild($('<tr><td><span>/'+j[0]+'</span></td><td>'+j[1]+'</td></tr>')[0]);
+            }
+
+            //Apply the table body to the admin table itself:
+            adminTable.appendChild(commandsTbodyObj['admin']);
+
+            //We need a function that will change the commands list table whenever the associated table is clicked on.
+            function switchActiveCat(){
+                document.getElementsByClassName('page-link cmdCat active')[0]?.classList.remove('active');
+                this.classList.add('active');
+                fullCmdList.innerHTML = '';
+                fullCmdList.appendChild(commandsTbodyObj[this.dataset.cat]);
+
+                redrawBg();
+            }
+
+            //Apply this function to all buttons:
+            for(var i of document.getElementsByClassName('page-link cmdCat'))
+                i.addEventListener('click',switchActiveCat);
+            
+            document.getElementsByClassName('page-link cmdCat')[0].click();
+
+            //Get statistics about the community server
+            fetch('https://discordapp.com/api/guilds/815026028250005556/widget.json').then(e=>e.json()).then(resultJson=>onlineNumber.innerText = resultJson.members.length + " online now");
+
+            //background code:
+            var canvasLock = false;
+            var ctx = bgCanvas.getContext('2d');
+
+            var lock = 0;
+            var unlock = 0;
+
+            function redrawBg(){
+                if(canvasLock) {
+                    lock++;
+                    return;
+                }
+                //Stop this function from constantly hogging resources
+                canvasLock = true;
+                setTimeout(()=>{
+                    bgCanvas.width = document.body.offsetWidth,
+                    bgCanvas.height = document.body.offsetHeight;
+                    var grd = ctx.createLinearGradient(document.body.offsetHeight/2, 0, 0, document.body.offsetHeight/2);
+                    grd.addColorStop(1, "#fa5afffe");
+                    grd.addColorStop(0, "#5adeffff");
+                    ctx.fillStyle = grd;
+                    //We would normally be concerned with clearing and redrawing, but since we're taking up the full screen and the only thing drawn is the background, there's nothing to worry about :D
+                    ctx.fillRect(0,0,bgCanvas.width,bgCanvas.height);
+                    unlock++;
+                    canvasLock = false;
+                },16.6);
+            }
+            window.addEventListener('resize',redrawBg);
+
+            redrawBg();
+            //There's a strange bug where the background doesn't draw everything while the animation is playing
+            setTimeout(redrawBg,500);
+
+            //Grab the statistics of lemonbot directly to see what everyone's favorite commands are
+            fetch('https://lemonbot-prod.herokuapp.com').then(e=>e.json()).then(awesomeJson=>{
+                //Insert commands of the week
+                if(awesomeJson.commandsOfTheWeek.length){
+                    popularCommands.style.display='';
+                    let cmdList = popularCommands.getElementsByTagName('span')[0];
+                    for(var i of awesomeJson.commandsOfTheWeek)
+                        cmdList.appendChild($('<span>/'+i+'</span>')[0]);
+                }
+                
+                //How many people have used lemonbot since the last update:
+                if(awesomeJson.serverCount) peopleUsingLemonbot.innerHTML += '('+awesomeJson.serverCount + ' servers using him since the last update!)';
+            });
+
+            //Hi renegace
+        </script>
+    </body>
+</html>
