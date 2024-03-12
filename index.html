@@ -22,6 +22,10 @@
                 background-color: red;
             }
 
+            button.page-link:focus {
+                box-shadow: none;
+            }
+
             .discordServerDisplay{
                 background-color: #33363b;
                 /* border: .15em solid #6d737c; */
@@ -275,11 +279,11 @@
         <h2 class='newSection' id='cmdList'>Here's my full list of commands:</h2>
         
         <ul class="pagination pagination-lg justify-content-center" onclick='console.log(arguments)'>
-            <li class="page-item"><span class="page-link cmdCat" data-cat="tools">Tools</span></li>
-            <li class="page-item"><span class="page-link cmdCat" data-cat="memes">Memes</span></li>
-            <li class="page-item"><span class="page-link cmdCat" data-cat="games">Games</span></li>
-            <li class="page-item"><span class="page-link cmdCat" data-cat="text">Text</span></li>
-            <li class="page-item"><span class="page-link cmdCat" data-cat="eliza">Eliza</span></li>
+            <li class="page-item"><button class="page-link cmdCat" data-cat="tools">Tools</button></li>
+            <li class="page-item"><button class="page-link cmdCat" data-cat="memes">Memes</button></li>
+            <li class="page-item"><button class="page-link cmdCat" data-cat="games">Games</button></li>
+            <li class="page-item"><button class="page-link cmdCat" data-cat="text">Text</button></li>
+            <li class="page-item"><button class="page-link cmdCat" data-cat="eliza">Eliza</button></li>
         </ul>
         
         <table id='fullCmdList' class='cmdTable'></table>
